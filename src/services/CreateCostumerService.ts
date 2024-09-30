@@ -1,39 +1,34 @@
 import prismaClient from '../prisma';
-import bcrypt from 'bcrypt';
-import { createCustomerValidator } from '../controllers/validator';
-
-interface CreateCustomerProps {
-    name: string;
-    email: string;
-    password: string;
-}
+import { IValidatorService } from '../interfaces/IValidatorService';
+import { IHashPasswordService } from '../interfaces/IHashPasswordService';
+import { IExistingEmailService } from '../interfaces/IExistingEmailService';
+import { ICreateCustomerProps } from '../interfaces/ICreateCustomerProps';
 
 class CreateCustomerService {
-    async execute({ name, email, password }: CreateCustomerProps) {
-        if (!name || !email || !password) {
-            throw new Error('Preencha todos os campos');
-        }
-        const { error } = createCustomerValidator.validate({
+    validatorService: IValidatorService<ICreateCustomerProps>;
+    hashService: IHashPasswordService;
+    emailService: IExistingEmailService;
+    constructor(
+        validatorService: IValidatorService<ICreateCustomerProps>,
+        hashService: IHashPasswordService,
+        emailService: IExistingEmailService,
+    ) {
+        this.validatorService = validatorService;
+        this.hashService = hashService;
+        this.emailService = emailService;
+    }
+    async execute({ name, email, password }: ICreateCustomerProps) {
+        this.validatorService.validate({
             name,
             email,
             password,
         });
 
-        if (error) {
-            throw new Error(error.details[0].message);
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const existingEmail = await prismaClient.customer.findUnique({
-            where: {
-                email: email,
-            },
-        });
-
-        if (existingEmail) {
-            throw new Error('Email já cadastrado');
-        }
+        const hashedPassword = await this.hashService.hashPassword(
+            password,
+            10,
+        );
+        await this.emailService.existingEmail(email);
 
         const customer = await prismaClient.customer.create({
             data: {
