@@ -1,11 +1,11 @@
-import { IListCostumeService } from '../interfaces/IListCostumerService';
+import { IListCustomerService } from '../interfaces/IListCustomerService';
 import prismaClient from '../prisma';
 
-class ListCostumerService implements IListCostumeService {
+class ListCustomerService implements IListCustomerService {
     async returnList() {
         const listCostumer = await prismaClient.customer.findMany();
         return listCostumer;
     }
 }
 
-export { ListCostumerService };
+export { ListCustomerService };

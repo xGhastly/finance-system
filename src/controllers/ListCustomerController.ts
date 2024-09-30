@@ -1,8 +1,8 @@
 import { Response } from 'express';
-import { ListCostumerService } from '../services/ListCostumerService';
+import { ListCustomerService } from '../services/ListCustomerService';
 
-class ListCostumerController {
-    constructor(private readonly listService: ListCostumerService) {}
+class ListCustomerController {
+    constructor(private readonly listService: ListCustomerService) { }
 
     async handle(res: Response) {
         try {
@@ -18,4 +18,4 @@ class ListCostumerController {
     }
 }
 
-export { ListCostumerController };
+export { ListCustomerController };

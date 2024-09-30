@@ -1,6 +1,6 @@
-import { IDeleteCustomerProps } from '../interfaces/IDeleteCustomerProps';
-import { IFindOneCustomerService } from '../interfaces/IFindOneCustomerService';
-import prismaClient from '../prisma';
+import { IDeleteCustomerProps } from '../../interfaces/Props/IDeleteCustomerProps';
+import { IFindOneCustomerService } from '../../interfaces/IFindOneCustomerService';
+import prismaClient from '../../prisma';
 
 class FindOneCustomerService implements IFindOneCustomerService {
     async findOne({ id }: IDeleteCustomerProps) {

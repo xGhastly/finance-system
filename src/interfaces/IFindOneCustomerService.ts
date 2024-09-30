@@ -1,5 +1,5 @@
-import { ICustomerProps } from './ICustomerProps';
-import { IDeleteCustomerProps } from './IDeleteCustomerProps';
+import { ICustomerProps } from './Props/ICustomerProps';
+import { IDeleteCustomerProps } from './Props/IDeleteCustomerProps';
 
 interface IFindOneCustomerService {
     findOne({ id }: IDeleteCustomerProps): Promise<ICustomerProps>;

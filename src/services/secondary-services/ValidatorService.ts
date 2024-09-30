@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { IValidatorService } from '../interfaces/IValidatorService';
-import { ICreateCustomerProps } from '../interfaces/ICreateCustomerProps';
+import { IValidatorService } from '../../interfaces/IValidatorService';
+import { ICreateCustomerProps } from '../../interfaces/Props/ICreateCustomerProps';
 
 class ValidatorService implements IValidatorService<ICreateCustomerProps> {
     validate(data: ICreateCustomerProps): void {

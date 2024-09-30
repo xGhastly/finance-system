@@ -2,7 +2,7 @@ import prismaClient from '../prisma';
 import { IValidatorService } from '../interfaces/IValidatorService';
 import { IHashPasswordService } from '../interfaces/IHashPasswordService';
 import { IExistingEmailService } from '../interfaces/IExistingEmailService';
-import { ICreateCustomerProps } from '../interfaces/ICreateCustomerProps';
+import { ICreateCustomerProps } from '../interfaces/Props/ICreateCustomerProps';
 
 class CreateCustomerService {
     constructor(

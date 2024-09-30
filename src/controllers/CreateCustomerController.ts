@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { CreateCustomerService } from '../services/CreateCostumerService';
+import { CreateCustomerService } from '../services/CreateCustomerService';
 
 class CreateCustomerController {
-    constructor(private readonly customerService: CreateCustomerService) {}
+    constructor(private readonly customerService: CreateCustomerService) { }
 
     async handle(req: Request, res: Response) {
         const { name, email, password } = req.body as {

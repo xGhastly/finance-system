@@ -1,6 +1,6 @@
 import prismaClient from '../prisma';
 import { IFindOneCustomerService } from '../interfaces/IFindOneCustomerService';
-import { IDeleteCustomerProps } from '../interfaces/IDeleteCustomerProps';
+import { IDeleteCustomerProps } from '../interfaces/Props/IDeleteCustomerProps';
 
 class DeleteCustomerService {
     constructor(private readonly findOneService: IFindOneCustomerService) { }
