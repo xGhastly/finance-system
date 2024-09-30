@@ -2,10 +2,7 @@ import { Response } from 'express';
 import { ListCostumerService } from '../services/ListCostumerService';
 
 class ListCostumerController {
-    private listService: ListCostumerService;
-    constructor(listService: ListCostumerService) {
-        this.listService = listService;
-    }
+    constructor(private readonly listService: ListCostumerService) {}
 
     async handle(res: Response) {
         try {

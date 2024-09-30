@@ -5,18 +5,11 @@ import { IExistingEmailService } from '../interfaces/IExistingEmailService';
 import { ICreateCustomerProps } from '../interfaces/ICreateCustomerProps';
 
 class CreateCustomerService {
-    validatorService: IValidatorService<ICreateCustomerProps>;
-    hashService: IHashPasswordService;
-    emailService: IExistingEmailService;
     constructor(
-        validatorService: IValidatorService<ICreateCustomerProps>,
-        hashService: IHashPasswordService,
-        emailService: IExistingEmailService,
-    ) {
-        this.validatorService = validatorService;
-        this.hashService = hashService;
-        this.emailService = emailService;
-    }
+        private readonly validatorService: IValidatorService<ICreateCustomerProps>,
+        private readonly hashService: IHashPasswordService,
+        private readonly emailService: IExistingEmailService,
+    ) { }
     async execute({ name, email, password }: ICreateCustomerProps) {
         this.validatorService.validate({
             name,

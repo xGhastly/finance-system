@@ -23,7 +23,7 @@ export default [
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'warn'
+      'prettier/prettier': 'warn',
     },
   },
   {

@@ -2,11 +2,7 @@ import { Request, Response } from 'express';
 import { CreateCustomerService } from '../services/CreateCostumerService';
 
 class CreateCustomerController {
-    private customerService: CreateCustomerService;
-
-    constructor(customerService: CreateCustomerService) {
-        this.customerService = customerService;
-    }
+    constructor(private readonly customerService: CreateCustomerService) {}
 
     async handle(req: Request, res: Response) {
         const { name, email, password } = req.body as {
