@@ -24,6 +24,7 @@ export default [
     },
     rules: {
       'prettier/prettier': 'warn',
+      'object-curly-spacing': ['error', 'always', { objectsInObjects: false }],
     },
   },
   {
