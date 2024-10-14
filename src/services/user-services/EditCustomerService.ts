@@ -20,8 +20,11 @@ class EditCustomerService implements IEditCustomerService {
         name: string,
         email: string,
         password: string,
-        newPassword: string,
+        newPassword?: string,
     ) {
+        if (newPassword === undefined || newPassword === '') {
+            newPassword = password;
+        }
         this.validatorService.validate({
             username,
             name,
@@ -44,7 +47,13 @@ class EditCustomerService implements IEditCustomerService {
 
         const editedCustomer = await prismaClient.customer.update({
             where: { id: findedCustomer.id },
-            data: { username, name, email, password: newCustomerPassword },
+            data: {
+                username,
+                name,
+                email,
+                password: newCustomerPassword,
+                updated_at: new Date(),
+            },
         });
 
         return editedCustomer;

@@ -27,6 +27,8 @@ import { FriendshipListController } from './controllers/friendship-controllers/F
 import { FriendshipCheckFriends } from './services/friendship-services/second-services/FriendshipCheckFriends';
 import { FriendshipDeleteService } from './services/friendship-services/FriendshipDeleteService';
 import { FriendshipDeleteController } from './controllers/friendship-controllers/FriendshipDeleteController';
+import { CreateAccountService } from './services/account-services/CreateAccountService';
+import { CreateAccountController } from './controllers/account-controllers/CreateAccountController';
 
 const router = Router();
 
@@ -99,4 +101,10 @@ router.post('/friend-delete', async (req: Request, res: Response) => {
     return new FriendshipDeleteController(deleteFriendship).handle(req, res);
 });
 
+router.post('/account-create', async (req: Request, res: Response) => {
+    const accountService = new CreateAccountService(
+        new FindOneCustomerService(),
+    );
+    return new CreateAccountController(accountService).handle(req, res);
+});
 export default router;

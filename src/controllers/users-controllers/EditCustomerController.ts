@@ -15,7 +15,7 @@ class EditCustomerController {
                     name: string;
                     email: string;
                     password: string;
-                    newPassword: string;
+                    newPassword?: string;
                 };
             const editedCustomer = await this.editCustomer.editCustomer(
                 id,
@@ -23,12 +23,11 @@ class EditCustomerController {
                 name,
                 email,
                 password,
-                newPassword,
+                newPassword || '',
             );
             res.send(editedCustomer);
         } catch (error) {
             if (error instanceof Error) {
-                console.log(error);
                 res.status(400).json({
                     error: error.message || 'Error to edit customer',
                 });
