@@ -6,19 +6,14 @@ class EditCustomerController {
 
     async handle(req: Request, res: Response) {
         try {
-            const { id } = req.query as unknown as {
-                id: number;
+            const username = req.params.user;
+            const { name, email, password, newPassword } = req.body as {
+                name: string;
+                email: string;
+                password: string;
+                newPassword?: string;
             };
-            const { username, name, email, password, newPassword } =
-                req.body as {
-                    username: string;
-                    name: string;
-                    email: string;
-                    password: string;
-                    newPassword?: string;
-                };
             const editedCustomer = await this.editCustomer.editCustomer(
-                id,
                 username,
                 name,
                 email,

@@ -1,17 +1,18 @@
+import { IHasAccountService } from '../../../interfaces/account-interfaces/IHasAccountservice';
 import prismaClient from '../../../prisma';
 
-class HasAccountService {
+class HasAccountService implements IHasAccountService {
     async hasAccount(customerId: number) {
         const account = await prismaClient.account.findUnique({
             where: {
-                id: customerId,
+                customerId: customerId,
             },
         });
 
         if (account) {
             return account;
         }
-        throw new Error('Conta não encontrada');
+        throw new Error('Cliente não possui uma conta.');
     }
 }
 

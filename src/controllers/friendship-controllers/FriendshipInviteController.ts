@@ -5,15 +5,13 @@ class FriendshipInviteController {
     constructor(private readonly friendshipService: FriendshipInviteService) { }
 
     async handle(req: Request, res: Response) {
-        const { senderId, receiverId } = req.body as {
-            senderId: number;
-            receiverId: number;
-        };
+        const senderUser = res.locals.user;
+        const receiverUser = req.params.receiverUser;
 
         try {
             const friendship = await this.friendshipService.sendFriendRequest(
-                senderId,
-                receiverId,
+                senderUser.id,
+                receiverUser,
             );
             res.status(201).send(friendship);
         } catch (error) {

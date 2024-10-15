@@ -5,12 +5,11 @@ class CreateAccountController {
     constructor(private readonly accountService: ICreateAccountService) { }
 
     async handle(req: Request, res: Response) {
-        const { customerId } = req.body as {
-            customerId: number;
-        };
+        const customerId = res.locals.user;
         try {
-            const createdAccount =
-                await this.accountService.createAccount(customerId);
+            const createdAccount = await this.accountService.createAccount(
+                customerId.id,
+            );
             res.send(createdAccount);
         } catch (error) {
             if (error instanceof Error) {

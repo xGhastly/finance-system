@@ -2,7 +2,6 @@ import { ICustomerProps } from './props/ICustomerProps';
 
 interface IEditCustomerService {
     editCustomer(
-        id: number,
         username: string,
         name: string,
         email: string,

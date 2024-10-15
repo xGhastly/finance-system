@@ -2,7 +2,7 @@ import { IFriendshipProps } from './props/IFriendshipProps';
 
 interface IFriendshipAcceptService {
     acceptFriendship(
-        senderId: number,
+        senderUser: string,
         receiverId: number,
         action: string,
     ): Promise<IFriendshipProps>;

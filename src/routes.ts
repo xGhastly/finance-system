@@ -29,10 +29,17 @@ import { FriendshipDeleteService } from './services/friendship-services/Friendsh
 import { FriendshipDeleteController } from './controllers/friendship-controllers/FriendshipDeleteController';
 import { CreateAccountService } from './services/account-services/CreateAccountService';
 import { CreateAccountController } from './controllers/account-controllers/CreateAccountController';
+import { IncomeAccountService } from './services/account-services/IncomeAccountService';
+import { HasAccountService } from './services/account-services/second-services/HasAccountService';
+import { IncomeAccountController } from './controllers/account-controllers/IncomeAccountController';
+import { UpdateBalance } from './services/account-services/second-services/UpdateBalance';
+import { ExpenseController } from './controllers/account-controllers/ExpenseController';
+import { ExpenseService } from './services/account-services/ExpenseService';
+import authMiddleware from './middlewares/authMiddleware';
 
 const router = Router();
 
-router.post('/create', async (req: Request, res: Response) => {
+router.post('/customer/create', async (req: Request, res: Response) => {
     const customerService = new CreateCustomerService(
         new ValidatorService(),
         new HashPasswordService(),
@@ -42,12 +49,12 @@ router.post('/create', async (req: Request, res: Response) => {
     return new CreateCustomerController(customerService).handle(req, res);
 });
 
-router.get('/usuarios', async (req: Request, res: Response) => {
+router.get('/customer/list', async (req: Request, res: Response) => {
     const listService = new ListCustomerService();
     return new ListCustomerController(listService).handle(req, res);
 });
 
-router.delete('/delete', async (req: Request, res: Response) => {
+router.delete('/customer/delete/:id', async (req: Request, res: Response) => {
     const deleteService = new DeleteCustomerService(
         new FindOneCustomerService(),
     );
@@ -62,32 +69,43 @@ router.post('/login', async (req: Request, res: Response) => {
     return new LoginCustomerController(loginService).handle(req, res);
 });
 
-router.put('/edit', async (req: Request, res: Response) => {
+router.put('/customer/edit/:user', async (req: Request, res: Response) => {
     const editService = new EditCustomerService(
-        new FindOneCustomerService(),
+        new FindPerUsername(),
         new HashPasswordService(),
         new ValidatorService(),
     );
     return new EditCustomerController(editService).handle(req, res);
 });
 
-router.post('/friend-invite', async (req: Request, res: Response) => {
-    const friendInvite = new FriendshipInviteService(
-        new FriendshipCheckStatus(),
-    );
-    return new FriendshipInviteController(friendInvite).handle(req, res);
-});
+router.post(
+    '/friendship/invite/:receiverUser',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const friendInvite = new FriendshipInviteService(
+            new FriendshipCheckStatus(),
+            new FindPerUsername(),
+            new FindOneCustomerService(),
+        );
+        return new FriendshipInviteController(friendInvite).handle(req, res);
+    },
+);
 
-router.post('/friend-accept', async (req: Request, res: Response) => {
-    const acceptFriend = new FriendshipAcceptService(
-        new FriendshipCheckExisting(),
-        new FriendshipChangeStatus(),
-        new FriendshipCheckStatus(),
-    );
-    return new FriendshipAcceptController(acceptFriend).handle(req, res);
-});
+router.post(
+    '/friendship/response/:senderUsername',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const acceptFriend = new FriendshipAcceptService(
+            new FriendshipCheckExisting(),
+            new FriendshipChangeStatus(),
+            new FriendshipCheckStatus(),
+            new FindPerUsername(),
+        );
+        return new FriendshipAcceptController(acceptFriend).handle(req, res);
+    },
+);
 
-router.get('/friend-list', async (req: Request, res: Response) => {
+router.get('/friendship/list', async (req: Request, res: Response) => {
     const listFriendship = new FriendshipListService(
         new FriendshipCheckExisting(),
         new FindOneCustomerService(),
@@ -96,15 +114,53 @@ router.get('/friend-list', async (req: Request, res: Response) => {
     return new FriendshipListController(listFriendship).handle(req, res);
 });
 
-router.post('/friend-delete', async (req: Request, res: Response) => {
-    const deleteFriendship = new FriendshipDeleteService();
-    return new FriendshipDeleteController(deleteFriendship).handle(req, res);
-});
+router.post(
+    '/friendship/delete',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const deleteFriendship = new FriendshipDeleteService(
+            new FindPerUsername(),
+        );
+        return new FriendshipDeleteController(deleteFriendship).handle(
+            req,
+            res,
+        );
+    },
+);
 
-router.post('/account-create', async (req: Request, res: Response) => {
-    const accountService = new CreateAccountService(
-        new FindOneCustomerService(),
-    );
-    return new CreateAccountController(accountService).handle(req, res);
-});
+router.post(
+    '/account/create',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const accountService = new CreateAccountService(
+            new FindOneCustomerService(),
+        );
+        return new CreateAccountController(accountService).handle(req, res);
+    },
+);
+
+router.post(
+    '/account/income',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const incomeService = new IncomeAccountService(
+            new HasAccountService(),
+            new UpdateBalance(),
+        );
+        return new IncomeAccountController(incomeService).handle(req, res);
+    },
+);
+
+router.post(
+    '/account/expense',
+    authMiddleware,
+    async (req: Request, res: Response) => {
+        const expenseService = new ExpenseService(
+            new HasAccountService(),
+            new UpdateBalance(),
+        );
+        return new ExpenseController(expenseService).handle(req, res);
+    },
+);
+
 export default router;

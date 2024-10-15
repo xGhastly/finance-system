@@ -6,16 +6,16 @@ class FriendshipAcceptController {
 
     async handle(req: Request, res: Response) {
         try {
-            const { senderId, receiverId, action } = req.body as {
-                senderId: number;
-                receiverId: number;
+            const { action } = req.body as {
                 action: string;
             };
+            const senderUsername = req.params.senderUsername;
+            const receiverId = res.locals.user;
 
             const acceptedFriendship =
                 await this.acceptService.acceptFriendship(
-                    senderId,
-                    receiverId,
+                    senderUsername,
+                    receiverId.id,
                     action,
                 );
             res.status(200).send(acceptedFriendship);

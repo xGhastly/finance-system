@@ -26,12 +26,14 @@ model Customer {
 }
 
 model Friendship {
-  id         Int              @id @default(autoincrement())
-  status     FriendshipStatus @default(PENDING)
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  senderId   Int
-  receiverId Int
+  id           Int              @id @default(autoincrement())
+  status       FriendshipStatus @default(PENDING)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  senderId     Int
+  senderUser   String
+  receiverId   Int
+  receiverUser String
 
   sender   Customer @relation("friendshipsSent", fields: [senderId], references: [id])
   receiver Customer @relation("friendshipsReceived", fields: [receiverId], references: [id])

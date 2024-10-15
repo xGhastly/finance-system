@@ -6,7 +6,7 @@ class DeleteCustomerController {
 
     async handle(req: Request, res: Response) {
         try {
-            const { id } = req.query as unknown as { id: number };
+            const id = Number(req.params.id);
             const customer = await this.customerService.deleteCustomer({ id });
             res.send(customer);
         } catch (error) {

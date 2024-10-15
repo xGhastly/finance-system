@@ -1,21 +1,19 @@
 import { IEditCustomerService } from '../../interfaces/user-interfaces/IEditCustomerService';
-import { IFindOneCustomerService } from '../../interfaces/user-interfaces/IFindOneCustomerService';
 import bcrypt from 'bcrypt';
-
 import prismaClient from '../../prisma';
 import { IHashPasswordService } from '../../interfaces/user-interfaces/IHashPasswordService';
 import { IValidatorService } from '../../interfaces/user-interfaces/IValidatorService';
 import { ICreateCustomerProps } from '../../interfaces/user-interfaces/props/ICreateCustomerProps';
+import { IFindPerUsername } from '../../interfaces/user-interfaces/IFindPerUsername';
 
 class EditCustomerService implements IEditCustomerService {
     constructor(
-        private readonly findOneCustomer: IFindOneCustomerService,
+        private readonly findCustomer: IFindPerUsername,
         private readonly hashPassword: IHashPasswordService,
         private readonly validatorService: IValidatorService<ICreateCustomerProps>,
     ) { }
 
     async editCustomer(
-        id: number,
         username: string,
         name: string,
         email: string,
@@ -31,7 +29,8 @@ class EditCustomerService implements IEditCustomerService {
             email,
             password: newPassword,
         });
-        const findedCustomer = await this.findOneCustomer.findOne({ id });
+        const findedCustomer =
+            await this.findCustomer.findPerUsername(username);
         if (!findedCustomer) {
             throw new Error('Usuário não encontrado');
         }
@@ -48,7 +47,6 @@ class EditCustomerService implements IEditCustomerService {
         const editedCustomer = await prismaClient.customer.update({
             where: { id: findedCustomer.id },
             data: {
-                username,
                 name,
                 email,
                 password: newCustomerPassword,

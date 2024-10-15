@@ -3,7 +3,7 @@ import { IFriendshipProps } from './props/IFriendshipProps';
 interface IFriendshipInviteService {
     sendFriendRequest(
         senderId: number,
-        receiverId: number,
+        receiverUser: string,
     ): Promise<IFriendshipProps>;
 }
 

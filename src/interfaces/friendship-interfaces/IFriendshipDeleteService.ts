@@ -2,8 +2,8 @@ import { IFriendshipProps } from './props/IFriendshipProps';
 
 interface IFriendshipDeleteService {
     deleteFriendship(
-        senderId: number,
-        receiverId: number,
+        userId: number,
+        friendUser: string,
     ): Promise<IFriendshipProps>;
 }
 
