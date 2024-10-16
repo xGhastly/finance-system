@@ -16,7 +16,7 @@
 Aqui você encontrará algumas das principais rotas/endpoints além de saber as requisições e respostas esperadas!
 ​
 
-<h3 id="get-auth-detail">POST /customer/list</h3>
+<h3 id="get-auth-detail">GET /customer/list</h3>
 
 **RESPONSE**
 
