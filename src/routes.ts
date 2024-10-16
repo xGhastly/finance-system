@@ -36,6 +36,8 @@ import { UpdateBalance } from './services/account-services/second-services/Updat
 import { ExpenseController } from './controllers/account-controllers/ExpenseController';
 import { ExpenseService } from './services/account-services/ExpenseService';
 import authMiddleware from './middlewares/authMiddleware';
+import { ListAccountService } from './services/account-services/ListAccountService';
+import { ListAccountController } from './controllers/account-controllers/ListAccountController';
 
 const router = Router();
 
@@ -107,8 +109,7 @@ router.post(
 
 router.get('/friendship/list', async (req: Request, res: Response) => {
     const listFriendship = new FriendshipListService(
-        new FriendshipCheckExisting(),
-        new FindOneCustomerService(),
+        new FindPerUsername(),
         new FriendshipCheckFriends(),
     );
     return new FriendshipListController(listFriendship).handle(req, res);
@@ -162,5 +163,10 @@ router.post(
         return new ExpenseController(expenseService).handle(req, res);
     },
 );
+
+router.get('/account/list', async (req: Request, res: Response) => {
+    const listService = new ListAccountService(new FindPerUsername());
+    return new ListAccountController(listService).handle(req, res);
+});
 
 export default router;

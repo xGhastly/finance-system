@@ -6,13 +6,13 @@ class FriendshipListController {
 
     async handle(req: Request, res: Response) {
         try {
-            const { id } = req.query as unknown as {
-                id: number;
+            const { user } = req.query as {
+                user: string;
             };
 
-            if (id) {
+            if (user) {
                 const filterFriendshipList =
-                    await this.listService.listFilterFriendship(id);
+                    await this.listService.listFilterFriendship(user);
 
                 res.send(filterFriendshipList);
                 return;

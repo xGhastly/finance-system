@@ -1,0 +1,3 @@
+class TransactionsController { }
+
+export { TransactionsController };

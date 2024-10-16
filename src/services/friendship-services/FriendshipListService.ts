@@ -1,13 +1,12 @@
-import { IFriendshipCheckExisting } from '../../interfaces/friendship-interfaces/IFriendshipCheckExisting';
 import { IFriendshipCheckFriends } from '../../interfaces/friendship-interfaces/IFriendshipCheckFriends';
 import { IFriendshipListService } from '../../interfaces/friendship-interfaces/IFriendshipListService';
-import { IFindOneCustomerService } from '../../interfaces/user-interfaces/IFindOneCustomerService';
+import { IFindPerUsername } from '../../interfaces/user-interfaces/IFindPerUsername';
+
 import prismaClient from '../../prisma';
 
 class FriendshipListService implements IFriendshipListService {
     constructor(
-        private readonly checkExisting: IFriendshipCheckExisting,
-        private readonly findOneCustomer: IFindOneCustomerService,
+        private readonly findCustomer: IFindPerUsername,
         private readonly checkFriends: IFriendshipCheckFriends,
     ) { }
 
@@ -16,8 +15,8 @@ class FriendshipListService implements IFriendshipListService {
         return listFriendship;
     }
 
-    async listFilterFriendship(id: number) {
-        const findedCustomer = await this.findOneCustomer.findOne({ id });
+    async listFilterFriendship(user: string) {
+        const findedCustomer = await this.findCustomer.findPerUsername(user);
         const listFriendship =
             await this.checkFriends.checkFriends(findedCustomer);
         return listFriendship;

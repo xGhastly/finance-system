@@ -50,6 +50,7 @@ enum FriendshipStatus {
 model Account {
   id         Int      @id @default(autoincrement())
   customerId Int      @unique
+  ownerUser  String
   balance    Float    @default(0)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
