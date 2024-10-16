@@ -110,7 +110,7 @@ Login efetuado com sucesso, token: your-token
 {
     "amount": 120,
     "description": "Jogo da Steam",
-    "method": "CREDITO" | "DEBITO" | "PIX"
+    "method": "CREDITO | DEBITO | PIX"
 }
 ```
 
