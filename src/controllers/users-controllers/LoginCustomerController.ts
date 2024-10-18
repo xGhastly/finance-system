@@ -19,7 +19,6 @@ class LoginCustomerController {
             res.send(`Login efetuado com sucesso, token: ${result}`);
         } catch (error) {
             if (error instanceof Error) {
-                console.log(error);
                 res.status(401).json({
                     error: error.message,
                 });

@@ -38,6 +38,8 @@ import { ExpenseService } from './services/account-services/ExpenseService';
 import authMiddleware from './middlewares/authMiddleware';
 import { ListAccountService } from './services/account-services/ListAccountService';
 import { ListAccountController } from './controllers/account-controllers/ListAccountController';
+import { ListTransactionsService } from './services/transactions-services/ListTransactionsService';
+import { ListTransactionsController } from './controllers/transactions-controllers/TransactionsController';
 
 const router = Router();
 
@@ -167,6 +169,11 @@ router.post(
 router.get('/account/list', async (req: Request, res: Response) => {
     const listService = new ListAccountService(new FindPerUsername());
     return new ListAccountController(listService).handle(req, res);
+});
+
+router.get('/transactions/list', async (req: Request, res: Response) => {
+    const listService = new ListTransactionsService(new FindPerUsername());
+    return new ListTransactionsController(listService).handle(req, res);
 });
 
 export default router;
